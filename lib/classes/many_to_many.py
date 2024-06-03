@@ -1,23 +1,29 @@
 
 class Article:
+    #variable that contains all instances of the class Article
     all = []
     def __init__(self, author, magazine, title= "title"):
+        #validation
         if not isinstance(author, Author):
             raise ValueError("Author must be of type Author")
         if not isinstance(magazine, Magazine):
             raise ValueError("Magazine must be of type Magazine")
         if not isinstance(title, str) or not (5 <= len(title) <= 50):
             raise ValueError("Titles must be of type str and between 5 and 50 characters, inclusive")
+        #instance attributes
         self._author = author
         self._magazine = magazine
         self._title = title
+        #updating author and magazine instances
         author._articles.append(self)
         magazine._articles.append(self)
-        Article.all.append(self)
 
+        #updating all instances
+        Article.all.append(self)
+#getter method for returning value of title 
     def get_title(self):
         return self._title
-
+#decorator method for class article
     @property
     def title(self):
         return self._title
@@ -53,6 +59,7 @@ class Author:
         self._name = name
         self._articles = []
         self._magazines = set()
+        
 
     @property
     def name(self):
@@ -126,7 +133,9 @@ class Magazine:
     
 
     def contributing_authors(self):
+        #initializing an empty dictionary
         author_article_count = {}
+        #iterates through each article
         for article in self._articles:
             author = article.author
             if author in author_article_count:
